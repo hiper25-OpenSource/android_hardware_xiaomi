@@ -359,7 +359,9 @@ void Session::notify(const fingerprint_msg_t* msg) {
             if (mUdfpsHandler) {
                 mUdfpsHandler->onAcquired(static_cast<int32_t>(result), vendorCode);
             }
-            mCb->onAcquired(result, vendorCode);
+            if (result != AcquiredInfo::VENDOR) {
+                mCb->onAcquired(result, vendorCode);
+            }
         } break;
         case FINGERPRINT_TEMPLATE_ENROLLING: {
             ALOGD("onEnrollResult(fid=%d, gid=%d, rem=%d)", msg->data.enroll.finger.fid,
